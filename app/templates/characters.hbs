@@ -10,9 +10,6 @@
   {{#each this.model.characters.group_names as |group|}}
       <li class="nav-item"><a data-bs-toggle="tab" class="nav-link {{group.active_class}}" href="#{{group.key}}">{{group.name}}</a></li>
   {{/each}}
-  {{#if this.model.game.roster_enabled}}
-      <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#roster">Roster</a></li>
-  {{/if}}
       <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#idle">Gone</a></li>
       <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#dead">Dead</a></li>
   {{#if this.model.characters.unapproved}}

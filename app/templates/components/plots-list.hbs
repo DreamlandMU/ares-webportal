@@ -15,6 +15,10 @@
   <tr>
       <td>
       <LinkTo @route="plot" @model={{plot.id}}>{{plot.title}}</LinkTo>
+          {{#if plot.content_warning}}
+          <ContentWarningTag @warning={{plot.content_warning}} />
+          {{/if}}
+      <LinkTo @route="plot" @model={{plot.id}}></LinkTo>
       </td>
       <td>
         {{#each plot.storytellers as |storyteller|}}
@@ -26,10 +30,6 @@
       </td>        
       <td>
           <AnsiFormat @text={{plot.summary}} />
-          {{#if plot.content_warning}}
-          <ContentWarningTag @warning={{plot.content_warning}} />
-          {{/if}}
-          
       </td>
   </tr>
 {{/each}}

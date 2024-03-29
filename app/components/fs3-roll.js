@@ -13,6 +13,7 @@ export default Component.extend({
     pcRollSkill: null,
     pcRollName: null,
     rollString: null,
+    noDraw: false,
     destinationType: 'scene',
 
     didInsertElement: function() {
@@ -37,6 +38,7 @@ export default Component.extend({
         let vsName2 = this.vsName2;
         let pcRollSkill = this.pcRollSkill;
         let pcRollName = this.pcRollName;
+        let noDraw = this.noDraw;
         
         var sender;
         if (this.scene) {
@@ -69,6 +71,7 @@ export default Component.extend({
         this.set('vsName2', null);
         this.set('pcRollSkill', null);
         this.set('pcRollName', null);
+        this.set('noDraw', false);
 
         var destinationId, command;
         if (this.destinationType == 'scene') {
@@ -88,6 +91,7 @@ export default Component.extend({
            vs_name2: vsName2,
            pc_name: pcRollName,
            pc_skill: pcRollSkill,
+           no_draw: noDraw,
            sender: sender }, null)
         .then( (response) => {
           if (response.error) {
