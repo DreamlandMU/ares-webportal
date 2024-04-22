@@ -14,10 +14,11 @@
 {{#each this.plots as |plot|}}
   <tr>
       <td>
-      <LinkTo @route="plot" @model={{plot.id}}>{{plot.title}}</LinkTo>
+      <LinkTo @route="plot" @model={{plot.id}}>
           {{#if plot.content_warning}}
           <ContentWarningTag @warning={{plot.content_warning}} />
           {{/if}}
+      {{plot.title}}</LinkTo>
       <LinkTo @route="plot" @model={{plot.id}}></LinkTo>
       </td>
       <td>

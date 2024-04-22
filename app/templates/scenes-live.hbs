@@ -114,16 +114,39 @@
 </div>
 {{/each}}
 
-
-
 {{#if this.model.unshared}}
-<br>
-<hr>
 <div class="alert alert-info">
   <p>You have <LinkTo @route="scenes-unshared">unshared scenes</LinkTo>.  Share or download them before they time out.</p>
   <p><LinkTo @route="scenes-unshared">View Unshared Scenes</LinkTo></p>
 </div>
 
 {{/if}}
-  
+
+<h3>Legend</h3>
+
+<span class="inline-block">
+  <img class="small-profile-icon icon-status-game-active" alt="Active On Game" src="/game/uploads/theme_images/noicon.png" >
+  Active on Game
+</span>
+
+<span class="inline-block">
+  <img class="small-profile-icon icon-status-web-active" alt="Active On Portal" src="/game/uploads/theme_images/noicon.png" >
+  Active on Portal
+</span>
+
+<span class="inline-block">
+  <img class="small-profile-icon icon-status-game-inactive" alt="Idle" src="/game/uploads/theme_images/noicon.png" >
+  Idle on Game
+</span>
+
+<span class="inline-block">
+  <img class="small-profile-icon icon-status-web-inactive" alt="Idle" src="/game/uploads/theme_images/noicon.png" >
+  Idle on Portal
+</span>
+
+<span class="inline-block">
+  <img class="small-profile-icon icon-status-offline faded" alt="Offline" src="/game/uploads/theme_images/noicon.png" >
+  Offline
+</span>  
+
 {{outlet}}
