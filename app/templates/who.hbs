@@ -3,22 +3,18 @@
 
 <p>{{this.model.who_count}} character(s) online.</p>
 
-<table class="table who-list">
-  <tbody>
+<div class="who-list">
     {{#each this.model.who as |char|}}
-    <tr>
-        <td> <CharIconInline @char={{char}} /> </td>   
-        <td> 
+    <div class="who-row">
+        <CharIconInline @char={{char}} />
           {{#if this.model.can_boot}}
           <a href="#" {{action (mut this.bootTarget) char}}>
             <TooltipIcon @position="right" @message="Boot player." @icon="fa-solid fa-user-slash" />
           </a>
           {{/if}}
-        </td>     
-    </tr>
+    </div>
     {{/each}}
-  </tbody>
-</table>
+</div>
 
 <h3>Legend</h3>
       
