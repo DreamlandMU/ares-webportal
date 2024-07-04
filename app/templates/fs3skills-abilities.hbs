@@ -111,7 +111,7 @@
 {{#each this.model.advantages as |ability| }}
 <tr>
     <td>{{ability.name}}</td> 
-    <td>{{ability.description}}</td>
+    <td>{{{ansi-format text=ability.description}}}</td>
 </tr>
 {{/each}}
 </tbody>

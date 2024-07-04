@@ -46,7 +46,7 @@
     {{#if this.searchCategory}}
       <span class="badge job-category job-category-{{this.searchCategory}}">&nbsp;</span> {{this.searchCategory}}    
     {{else}}
-      Any
+      <span>&nbsp;</span> Any
     {{/if}}
     
     <DropdownMenu @id="categoryDropdown" @title="Category">
@@ -64,7 +64,7 @@
     {{#if this.searchStatus}}
       <span class="badge job-status job-status-{{this.searchStatus}}">&nbsp;</span> {{this.searchStatus}}    
     {{else}}
-      Any
+      <span>&nbsp;</span> Any
     {{/if}}
     
     
