@@ -15,6 +15,9 @@
   {{#if this.model.characters.unapproved}}
     <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#unapproved">New</a></li>
   {{/if}}
+  {{#if this.model.characters.other}}
+    <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#other">Other</a></li>
+  {{/if}}
 </ul>
 
 <div class="tab-content">
@@ -36,14 +39,6 @@
   </div>
   {{/each}}
   
-  {{#if this.model.game.roster_enabled}}
-  <div id="roster" class="tab-pane fade show">
-      <h2>Roster</h2>
-
-      See <LinkTo @route="roster">Roster</LinkTo> for ready-made characters on the roster.
-  </div>
-  {{/if}}
-
    <div id="idle" class="tab-pane fade show">
       <CharGroupList @name="" @chars={{this.model.characters.idle}} />
   </div>
@@ -55,6 +50,12 @@
   {{#if this.model.characters.unapproved}}
      <div id="unapproved" class="tab-pane fade show">
         <CharGroupList @name="" @chars={{this.model.characters.unapproved}} />
+    </div>
+  {{/if}}
+
+  {{#if this.model.characters.other}}
+     <div id="other" class="tab-pane fade show">
+        <CharGroupList @name="" @chars={{this.model.characters.other}} />
     </div>
   {{/if}}
 </div>

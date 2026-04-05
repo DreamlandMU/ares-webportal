@@ -29,7 +29,7 @@
     {{#if this.scene.in_trash}}     
     <div class="alert alert-warning scene-deletion-warning">
       <i class="fa fa-trash"></i>
-      Marked for deletion. Download, share, or restart before it's deleted on {{scene.trash_date}}.
+      Marked for deletion. Download, share, or restart before it's deleted on {{this.scene.trash_date}}.
     </div>
     {{/if}}
 
@@ -197,7 +197,7 @@
               <li><hr role="separator" class="dropdown-divider"></li>
       
                {{#if this.scene.fs3_enabled}}
-                   <LiveSceneFs3 @abilities={{this.abilities}} @scene={{this.scene}} />
+                   <LiveSceneFs3 @abilities={{this.abilities}} @abilityList={{this.abilityList}} @luckList={{this.luckList}} @scene={{this.scene}} />
                {{/if}}
                
                {{#if this.cookiesExtraInstalled}}
@@ -344,7 +344,7 @@
     <BsModalSimple @title="Character Card" @closeTitle="Close" @size={{null}} @fade={{true}} @open={{this.characterCard}} @onHide={{action (mut this.characterCard) false}}>
       
       {{#if this.scene.use_custom_char_cards}}
-        <CharCardCustom @char={{this.characterCardInfo}} @custom={{this.custom}} />
+        <CharCardCustom @char={{this.characterCardInfo}} @custom={{this.custom}} @showOriginal={{true}} />
       {{else}}
         <CharCard @char={{this.characterCardInfo}} />
       {{/if}}

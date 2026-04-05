@@ -13,7 +13,7 @@
 <tbody>
 {{#each this.model.weapons as |gear|}}
 <tr>
-    <td><LinkTo @route="fs3combat-gear-detail" @models={{array 'weapon' gear.key}}>{{gear.name}}</LinkTo></td> 
+    <td><LinkTo @route="fs3combat-gear-detail" @models={{array 'weapon' gear.key}}>{{gear.key}}</LinkTo></td> 
     <td>{{gear.description}}</td>
 </tr>
 {{/each}}
@@ -33,7 +33,7 @@
 <tbody>
 {{#each this.model.armor as |gear|}}
 <tr>
-    <td><LinkTo @route="fs3combat-gear-detail" @models={{array 'armor' gear.key}}>{{gear.name}}</LinkTo></td> 
+    <td><LinkTo @route="fs3combat-gear-detail" @models={{array 'armor' gear.key}}>{{gear.key}}</LinkTo></td> 
     <td>{{gear.description}}</td>
 </tr>
 {{/each}}
@@ -54,7 +54,7 @@
 <tbody>
 {{#each this.model.vehicles as |gear|}}
 <tr>
-    <td><LinkTo @route="fs3combat-gear-detail" @models={{array 'vehicle' gear.key}}>{{gear.name}}</LinkTo></td> 
+    <td><LinkTo @route="fs3combat-gear-detail" @models={{array 'vehicle' gear.key}}>{{gear.key}}</LinkTo></td> 
     <td>{{gear.description}}</td>
 </tr>
 {{/each}}
@@ -75,7 +75,7 @@
 <tbody>
 {{#each this.model.mounts as |gear|}}
 <tr>
-    <td><LinkTo @route="fs3combat-gear-detail" @models={{array 'mount' gear.key}}>{{gear.name}}</LinkTo></td> 
+    <td><LinkTo @route="fs3combat-gear-detail" @models={{array 'mount' gear.key}}>{{gear.key}}</LinkTo></td> 
     <td>{{gear.description}}</td>
 </tr>
 {{/each}}

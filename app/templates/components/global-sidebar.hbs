@@ -47,7 +47,7 @@
       <h2>Upcoming Events <i class="fa fa-calendar" aria-hidden="true"></i></h2>
   </div>
   {{#each this.model.upcoming_events as |event|}}
-  <p><b><LinkTo @route="event" @model={{event.id}}>
+  <p class='sidebar-list'><b><LinkTo @route="event" @model={{event.id}}>
     
     {{#if event.is_signed_up}}
     <i class="fas fa-calendar-check" aria-label="Signed Up"></i>
@@ -74,7 +74,7 @@
        
    </div>
    {{#each this.model.recent_scenes as |scene|}}
-   <p><LinkTo @route="scene" @model={{scene.id}}>{{scene.icdate}} - {{scene.title}}</LinkTo>
+   <p class='sidebar-list'><LinkTo @route="scene" @model={{scene.id}}>{{scene.icdate}} - {{scene.title}}</LinkTo>
        {{#if scene.content_warning}}
        <ContentWarningTag @warning={{scene.content_warning}} @position="top-left" />
        {{/if}}
@@ -91,7 +91,7 @@
        
    </div>
    {{#each this.model.recent_forum as |post|}}
-   <p>{{post.author.name}} 
+   <p class='sidebar-list'>{{post.author.name}} 
           {{#if post.is_reply}}    
             replied to 
           {{else}}

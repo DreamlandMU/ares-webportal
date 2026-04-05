@@ -34,9 +34,9 @@
 <h2>Details</h2>
 
 {{#each this.model.descs.details as |detail|}}
-<p><b>{{detail.name}}:</b></p>
-
-<AnsiFormat @text={{detail.desc}} />
+<div class="collapsible">
+<button data-bs-toggle="collapse" data-bs-target="#{{detail.name}}" class="btn btn-default btn-collapse collapsed" aria-expanded="false">{{detail.name}} <i class="fa fa-caret-down"></i></button>
+<div id="{{detail.name}}" class="collapse" style=""><AnsiFormat @text={{detail.desc}} /></div></div>
 {{/each}}
 
 

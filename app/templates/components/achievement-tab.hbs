@@ -1,0 +1,37 @@
+<div id="{{@section}}" class="tab-pane fade show {{@activity}}">
+    <table class="achievement-table">
+        {{#each-in @data as |cat list|}}
+            {{#if (or (eq cat @section) (eq @section "Hidden"))}}
+                {{#each list as |achievement|}}
+                    <tr>
+                        <td class="col-xs-1"><i class="fa {{achievement.type_icon}} fa-2x" aria-hidden="true"></i></td>
+                        <td class="col-xs-2">
+                            {{#if (colon-check text=achievement.message)}}
+                                <span class="achievement-message">{{colon-split text=achievement.message part=0}}</span>
+                                <span class="achievement-description">{{colon-split text=achievement.message part=1}}</span>
+                            {{else}}
+                                <span class="achievement-message">{{achievement.message}}</span>
+                            {{/if}}
+                        </td>
+                        <td class="col-xs-9">
+                            <div class="achievement-chars">
+                                {{#each achievement.chars as |char|}}
+                                    <span class="achievement-char">{{char.name}}
+                                        {{#if char.count}}
+                                            ({{char.count}})
+                                        {{/if}}
+                                    </span>
+                                {{/each}}
+                            </div>
+
+                            {{#if achievement.levels}}
+                                <p class="achievement-levels">Levels: {{achievement.levels}}</p>
+                            {{/if}}
+
+                        </td>
+                    </tr>
+                {{/each}}
+            {{/if}}
+        {{/each-in}}
+    </table>
+</div>

@@ -3,9 +3,13 @@
   <div class="char-achievement">
   <i class="fa fa-2x fa-fw achievement-icon {{achieve.type_icon}}" aria-hidden="true"></i>
 
-  <span class="achievement-message">
-  {{achieve.message}}
-  </span>
+  {{#if (colon-check text=achieve.message)}}
+     <span class="achievement-message">{{colon-split text=achieve.message part=0}}
+     <span class="achievement-description">{{colon-split text=achieve.message part=1}}</span>
+     </span>
+  {{else}}
+     <span class="achievement-message">{{achieve.message}}</span>
+  {{/if}}
 
   {{#if achieve.count}}
   ({{achieve.count}})

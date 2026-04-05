@@ -43,6 +43,7 @@
 
     {{#if this.char.fs3}}
       <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#stats">Stats</a></li>
+      <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#damage">Damage</a></li>
     {{/if}}
   </ul>
 
@@ -72,6 +73,7 @@
               <Fs3Dots @rating={{ability.rating}} @max={{8}} />
             </div>
           {{/each}}
+
         </div>
 
         <div class="card-specialties">
@@ -112,7 +114,33 @@
         {{/if}}
 
       </div>
+
+      <div id="damage" class="tab-pane fade show">
+        <center><b>Total Damage Modifier:</b> {{this.char.fs3.damage_mod}}</center>
+        <div class="fs3-damage-list">
+          {{#each this.char.fs3.damage as |damage|}}
+            <div class="fs3-damage-block">
+              <div class="row">
+                <div class="col col-xs-12 col-sm-4">  <div class="fs3-damage-title">{{damage.description}}</div> </div>
+                <div class="col col-xs-12 col-sm-4">{{damage.date}}</div>
+                <div class="col col-xs-12 col-sm-4">
+      
+              {{#if this.showOriginal}}
+                <AnsiFormat @text={{damage.original_severity}} /> 
+                ( now <AnsiFormat @text={{damage.severity}} />)
+              {{else}}
+                <AnsiFormat @text={{damage.severity}} /> 
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+      </div>
     {{/if}}
   </div>
 {{/if}}
 </div>
+{{#each this.currentDamage as |current|}}
+{{current}}
+{{/each}}
