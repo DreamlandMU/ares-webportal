@@ -7,11 +7,39 @@
   {{/if}}
 {{/if}}
 
-<BsModalSimple @title="Spend a Luck Point" @closeTitle="Cancel" @submitTitle="Spend" @size={{null}} @fade={{true}} @open={{this.selectSpendLuck}} @onSubmit={{this.spendLuck}} @onHide={{(fn this.setSelectSpendLuck false)}}>
-  
+<BsModalSimple @title="Spend Luck" @closeTitle="Cancel" @submitTitle="Spend" @size={{null}} @fade={{true}} @open={{this.selectSpendLuck}} @onSubmit={{this.spendLuck}} @onHide={{(fn this.setSelectSpendLuck false)}}>
+  <div class="luck-spender">
+  <b>Current Luck Points:</b> <span class={{if this.luckPoints "greenlight" "redlight"}}>{{this.luckPoints}}</span><br/>
   <b>Reason:</b> <Input @type="text" size={{25}} id="luckReason" @enter={{this.spendLuck}} @value={{this.luckReason}} />
+  <b>Amount:</b> <Input @type="number" min="1" id="luckAmount" @enter={{this.spendLuck}} @value={{this.luckAmount}} style="width: 8ch;" />
+  </div>
 
+  <h5>Luck Costs</h5>
+  <table class="table luck-costs">
+    <tbody>
+      <tr>
+        <td>Push Yourself</td>
+        <td>2 luck</td>
+        <td>+2 Dice, or act while Incapacitated.<br/>(Can be bought once a roll for each effect.)</td>
+      </tr>
+      <tr>
+        <td>Assist</td>
+        <td>1 luck</td>
+        <td>Give another character +2 dice.<br/>Possibly take a consequence with them.</td>
+      </tr>
+      <tr>
+        <td>Do-over</td>
+        <td>3 luck</td>
+        <td>One re-roll on a skill. Re-rolls cannot be pushed or assisted.</td>
+      </tr>
+      <tr>
+        <td>Lead a Group Action</td>
+        <td>1 luck per complication avoided</td>
+        <td>Make a Group Roll for a skill; best result is the group's success.</td>
+      </tr>
+    </tbody>
+  </table>
 </BsModalSimple>
 
+<Fs3Roll @scene={{this.scene}} @destinationType="scene" @abilities={{this.abilities}} @abilityList={{this.abilityList}} @selectSkillRoll={{this.selectSkillRoll}} />
 
-<Fs3Roll @scene={{this.scene}} @destinationType="scene" @abilities={{this.abilities}} @selectSkillRoll={{this.selectSkillRoll}} />
