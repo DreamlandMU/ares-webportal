@@ -1,0 +1,57 @@
+{{#let (get this.abilityList this.scene.poseChar.name) this.abilities
+  as |sceneAbilities jobAbilities|
+}}
+<BsModalSimple @title="Add Ability Roll" @closeTitle="Cancel" @submitTitle="Roll" @size={{null}} @fade={{true}} @open={{this.selectSkillRoll}} @onSubmit={{action "addRoll"}} @onHide={{action (mut this.selectSkillRoll) false}}>
+
+    <p class="hint">You can use a rating number to roll for a NPC. An average attribute is automatically factored in, so rolling a skill of "3" will roll 5 dice total for the NPC.</p>
+
+    <p><b>Regular Roll</b></p>
+    <p>Select an ability, or type one (plus modifiers, if applicable) in the box.</p>
+    <select onchange={{this.onRollStringSelected}}>
+      {{#if this.scene}}
+        {{#each sceneAbilities as |ability|}}
+          <option value={{ability}}>{{ability}}</option>
+        {{/each}}
+      {{else}}
+        {{#each jobAbilities as |ability|}}
+          <option value={{ability}}>{{ability}}</option>
+        {{/each}}
+      {{/if}}
+    </select>
+    <Input @type="text" size={{25}} id="rollString" @enter={{this.addRoll}} @value={{this.rollString}} />
+
+    <p>Goal (To):</p>
+    <Input @type="text" size={{25}} id="rollReason" @enter={{action "addRoll"}} @value={{this.rollReason}} />
+
+    <div class="text-center">
+      <label>
+        <Input @type="checkbox" @checked={{this.isGroupRoll}} /> Leading a Group Roll
+      </label>
+    </div>
+
+    {{#if this.isGroupRoll}}
+      <p>Enter character names (including yours) separated by spaces:</p>
+      <Input @type="text" size={{25}} id="groupRollNames" @enter={{action "addRoll"}} @value={{this.groupRollNames}} />
+    {{/if}}
+
+   <hr>
+    <p><b>Roll for Another PC</b></p>
+
+    <p>
+      Character: <Input @type="text" size={{15}} id="pcRollName" @enter={{this.addRoll}} @value={{this.pcRollName}} />
+      Ability: <Input @type="text" size={{15}} id="pcRollSkill" @enter={{this.addRoll}} @value={{this.pcRollSkill}} /><br>
+    </p>
+
+    <hr>
+    <p><b>Opposed Roll</b></p>
+    <p class="opposed">Enter two character and ability names. <label><Input @type="checkbox" @checked={{this.noDraw}}/><span class="nodraw">No Draws</span></label></p>
+    <p>
+      Character: <Input @type="text" size={{15}} id="vsName1" @enter={{this.addRoll}} @value={{this.vsName1}} />
+      Ability: <Input @type="text" size={{15}} id="vsRoll1" @enter={{this.addRoll}} @value={{this.vsRoll1}} /><br>
+     vs<br>
+      Character: <Input @type="text" size={{15}} id="vsName2" @enter={{this.addRoll}} @value={{this.vsName2}} />
+      Ability: <Input @type="text" size={{15}} id="vsRoll2" @enter={{this.addRoll}} @value={{this.vsRoll2}} /><br>
+    </p>
+
+  </BsModalSimple>
+{{/let}}

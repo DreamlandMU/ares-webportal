@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { set, computed } from '@ember/object';
 import { observer } from '@ember/object';
+import { action } from '@ember/object';
 
 export default Component.extend({
     gameApi: service(),
@@ -53,11 +54,11 @@ export default Component.extend({
       this.set('rollString', defaultAbility);
     }),
 
-    actions: { 
+    @action
       addRoll() {
         let api = this.gameApi;
         let defaultAbility = this.abilities ? this.abilities[0] : '';
-      
+
         let rollString = this.rollString || defaultAbility;
         let rollReason = this.rollReason || "no reason"
         let vsRoll1 = this.vsRoll1;
@@ -69,24 +70,24 @@ export default Component.extend({
         let noDraw = this.noDraw;
         let isGroupRoll = this.isGroupRoll;
         let groupRollNames = this.groupRollNames;
-        
+
         var sender;
         if (this.scene) {
           sender = this.get('scene.poseChar.name');
         }
-          
+
         if (!rollString && !vsRoll1 && !pcRollSkill && !isGroupRoll) {
           this.flashMessages.danger("You haven't selected an ability to roll.");
           return;
         }
-      
+
         if (vsRoll1 || vsRoll2 || vsName1 || vsName2) {
           if (!vsRoll2 || !vsName1 || !vsName2) {
             this.flashMessages.danger("You have to provide all opposed skill information.");
             return;
           }
         }
-      
+
         if (pcRollSkill || pcRollName) {
           if (!pcRollSkill || !pcRollName) {
             this.flashMessages.danger("You have to provide all skill information to roll for a PC.");
@@ -98,7 +99,7 @@ export default Component.extend({
           this.flashMessages.danger("You need to provide character names for the group roll.");
           return;
         }
-        
+
         this.set('selectSkillRoll', false);
         this.set('rollString', null);
         this.set('rollReason', null);
@@ -121,7 +122,7 @@ export default Component.extend({
           destinationId = this.get('job.id');
           command = 'addJobRoll'
         }
-        
+
         api.requestOne(command, { id: destinationId,
            roll_string: rollString,
            roll_reason: rollReason,
@@ -141,5 +142,14 @@ export default Component.extend({
           }
         });
       },
-    }
+
+      @action
+      onRollStringSelected(event) {
+        this.set('rollString', event.target.value);
+      },
+
+      @action
+      setSelectSkillRoll(value) {
+        this.set('selectSkillRoll', value);
+      }
 });
