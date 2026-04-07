@@ -30,7 +30,7 @@ export default Component.extend({
         if (!this.get('scene.poseChar')) {
           let self = this;
           this.scene.poseable_chars.forEach(c => {
-            if (!this.get('scene.poseChar') && self.scene.participants.any(w => w.name == c.name)) {
+            if (!this.get('scene.poseChar') && self.scene.participants.some(w => w.name == c.name)) {
               self.set('scene.poseChar', c);
             }
           });
@@ -55,38 +55,38 @@ export default Component.extend({
     }),
 
     @action
-      addRoll() {
-        let api = this.gameApi;
-        let defaultAbility = this.abilities ? this.abilities[0] : '';
+    addRoll() {
+      let api = this.gameApi;
+      let defaultAbility = this.abilities ? this.abilities[0] : '';
 
-        let rollString = this.rollString || defaultAbility;
-        let rollReason = this.rollReason || "no reason"
-        let vsRoll1 = this.vsRoll1;
-        let vsRoll2 = this.vsRoll2;
-        let vsName1 = this.vsName1;
-        let vsName2 = this.vsName2;
-        let pcRollSkill = this.pcRollSkill;
-        let pcRollName = this.pcRollName;
-        let noDraw = this.noDraw;
-        let isGroupRoll = this.isGroupRoll;
-        let groupRollNames = this.groupRollNames;
+      let rollString = this.rollString || defaultAbility;
+      let rollReason = this.rollReason || "no reason"
+      let vsRoll1 = this.vsRoll1;
+      let vsRoll2 = this.vsRoll2;
+      let vsName1 = this.vsName1;
+      let vsName2 = this.vsName2;
+      let pcRollSkill = this.pcRollSkill;
+      let pcRollName = this.pcRollName;
+      let noDraw = this.noDraw;
+      let isGroupRoll = this.isGroupRoll;
+      let groupRollNames = this.groupRollNames;
 
-        var sender;
-        if (this.scene) {
-          sender = this.get('scene.poseChar.name');
-        }
+      var sender;
+      if (this.scene) {
+        sender = this.get('scene.poseChar.name');
+      }
 
-        if (!rollString && !vsRoll1 && !pcRollSkill && !isGroupRoll) {
-          this.flashMessages.danger("You haven't selected an ability to roll.");
+      if (!rollString && !vsRoll1 && !pcRollSkill && !isGroupRoll) {
+        this.flashMessages.danger("You haven't selected an ability to roll.");
+        return;
+      }
+
+      if (vsRoll1 || vsRoll2 || vsName1 || vsName2) {
+        if (!vsRoll2 || !vsName1 || !vsName2) {
+          this.flashMessages.danger("You have to provide all opposed skill information.");
           return;
         }
-
-        if (vsRoll1 || vsRoll2 || vsName1 || vsName2) {
-          if (!vsRoll2 || !vsName1 || !vsName2) {
-            this.flashMessages.danger("You have to provide all opposed skill information.");
-            return;
-          }
-        }
+      }
 
         if (pcRollSkill || pcRollName) {
           if (!pcRollSkill || !pcRollName) {

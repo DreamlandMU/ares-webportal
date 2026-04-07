@@ -20,7 +20,7 @@ export default Component.extend({
         if (!this.get('scene.poseChar')) {
           let self = this;
           this.scene.poseable_chars.forEach(c => {
-            if (!this.get('scene.poseChar') && self.scene.participants.any(w => w.name == c.name)) {
+            if (!this.get('scene.poseChar') && self.scene.participants.some(w => w.name == c.name)) {
               self.set('scene.poseChar', c);
             }
           });
