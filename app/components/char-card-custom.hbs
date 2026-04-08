@@ -1,0 +1,146 @@
+<div class="scene-card">
+  <div class="row">
+    <div class="col col-4">
+      <CharIcon @char={{this.char}} />
+
+      {{#if this.char.id}}
+        <LinkTo @route="char" @model={{this.char.name}} target="_blank">View Full Profile</LinkTo>
+      {{/if}}
+
+    </div>
+    <div class="col col-8">
+      {{#if (not this.char.is_ooc)}}
+        {{#each this.char.demographics as |demo|}}
+          <div class="row">
+            <div class="col col-xs-3">
+              <b>{{demo.name}}</b>
+            </div>
+            <div class="col col-xs-9">
+              {{demo.value}}
+            </div>
+          </div>
+        {{/each}}
+        {{#if (not this.char.demographics)}}
+          No demographics available.  Try reloading the scene page.
+        {{/if}}
+      {{/if}}
+
+      {{#if this.char.status_message}}
+        <div class="alert alert-info">
+          {{this.char.status_message}}
+        </div>
+      {{/if}}
+
+    </div>
+  </div>
+
+{{#if (not this.char.is_ooc)}}
+
+  <ul class="nav nav-tabs" role="tablist">
+    {{#if this.char.description}}
+      <li class="nav-item"><a data-bs-toggle="tab" class="nav-link active" href="#description">Description</a></li>
+    {{/if}}
+
+    {{#if this.char.fs3}}
+      <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#stats">Stats</a></li>
+      <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#damage">Damage</a></li>
+    {{/if}}
+  </ul>
+
+  <div class="tab-content">
+    {{#if this.char.description}}
+      <div id="description" class="tab-pane fade show active">
+        <AnsiFormat @text={{this.char.description}} />
+      </div>
+    {{/if}}
+
+    {{#if this.char.fs3}}
+      <div id="stats" class="tab-pane fade show">
+
+        <div class="card-abilities">
+          {{#each this.char.fs3.attributes as |ability|}}
+            <div class="card-ability">
+              <span class="card-ability-name">{{ability.name}}</span>
+              <Fs3Dots @rating={{ability.rating}} @max={{4}} />
+            </div>
+          {{/each}}
+        </div>
+
+        <div class="card-abilities">
+          {{#each this.char.fs3.action_skills as |ability|}}
+            <div class="card-ability">
+              <span class="card-ability-name">{{ability.name}}</span>
+              <Fs3Dots @rating={{ability.rating}} @max={{8}} />
+            </div>
+          {{/each}}
+
+        </div>
+
+        <div class="card-specialties">
+          {{#each this.char.fs3.action_skills as |ability|}}
+            {{#if ability.specialties}}
+              <div class="card-specialty">{{ability.name}}: {{ability.specialties}}</div>
+            {{/if}}
+          {{/each}}
+        </div>
+
+        <div class="card-abilities">
+          {{#each this.char.fs3.backgrounds as |ability|}}
+            <div class="card-ability">
+              <span class="card-ability-name">{{ability.name}}</span>
+              <Fs3Dots @rating={{ability.rating}} @max={{3}} />
+            </div>
+          {{/each}}
+        </div>
+
+        <div class="card-abilities">
+          {{#each this.char.fs3.languages as |ability|}}
+            <div class="card-ability">
+              <span class="card-ability-name lang-{{ability.name}}">{{ability.name}}</span>
+              <Fs3Dots @rating={{ability.rating}} @max={{3}} />
+            </div>
+          {{/each}}
+        </div>
+
+        {{#if (and this.char.fs3.use_advantages this.char.fs3.advantages)}}
+          <div class="card-abilities">
+            {{#each this.char.fs3.advantages as |ability|}}
+              <div class="card-ability">
+                <span class="card-ability-name">{{ability.name}}</span>
+                <Fs3Dots @rating={{ability.rating}} @max={{3}} />
+              </div>
+            {{/each}}
+          </div>
+        {{/if}}
+
+      </div>
+
+      <div id="damage" class="tab-pane fade show">
+        <center><b>Total Damage Modifier:</b> {{this.char.fs3.damage_mod}}</center>
+        <div class="fs3-damage-list">
+          {{#each this.char.fs3.damage as |damage|}}
+            <div class="fs3-damage-block">
+              <div class="row">
+                <div class="col col-xs-12 col-sm-4">  <div class="fs3-damage-title">{{damage.description}}</div> </div>
+                <div class="col col-xs-12 col-sm-4">{{damage.date}}</div>
+                <div class="col col-xs-12 col-sm-4">
+
+              {{#if this.showOriginal}}
+                <AnsiFormat @text={{damage.original_severity}} />
+                ( now <AnsiFormat @text={{damage.severity}} />)
+              {{else}}
+                <AnsiFormat @text={{damage.severity}} />
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+      </div>
+    {{/if}}
+  </div>
+{{/if}}
+</div>
+{{#each this.currentDamage as |current|}}
+{{current}}
+{{/each}}
