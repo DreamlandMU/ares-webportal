@@ -23,6 +23,16 @@
         {{#if (not this.char.demographics)}}
           No demographics available.  Try reloading the scene page.
         {{/if}}
+        {{#each this.char.groups as |group|}}
+          <div class="row">
+            <div class="col col-xs-3">
+              <b>{{group.name}}</b>
+            </div>
+            <div class="col col-xs-9">
+              {{group.value}}
+            </div>
+          </div>
+        {{/each}}
       {{/if}}
 
       {{#if this.char.status_message}}
