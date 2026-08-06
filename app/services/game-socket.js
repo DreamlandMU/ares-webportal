@@ -13,10 +13,17 @@ export default Service.extend(AresConfig, {
     callbacks: null,
     connected: false,
     lastActivity: null,
+    connectionRetries: 0,
   
     init: function() {
       this._super(...arguments);
       this.set('callbacks', {});
+      setInterval(() => {
+        if (!this.isSocketReady()) {
+          console.log("Socket dead. Reconnecting.");
+          this.sessionStarted(this.charId);
+        }
+      }, 30000);
     },
       
     socketUrl() {
@@ -24,12 +31,15 @@ export default Service.extend(AresConfig, {
       return `${protocol}://${this.mushHost}:${this.websocketPort}/websocket`;
     },
     
-    checkSession(charId) {
-        let socket = this.socket;
-        if (!socket || this.charId != charId) {
-            this.sessionStarted(charId);
-        }
+    isSocketReady() {
+      return this.socket && this.socket.readyState == WebSocket.OPEN ? true : false;
     },
+    
+    checkSession(charId) {
+        if (!this.isSocketReady() || (this.charId != charId)) {
+            this.sessionStarted(charId);
+        }        
+    },    
     
     isWindowFocused() {
       return document.hasFocus();
@@ -70,8 +80,11 @@ export default Service.extend(AresConfig, {
     },
     
     reconnect() {
-      console.log("Reconnecting websocket.");
-      this.sessionStarted(this.charId);
+      if (this.connectionRetries < 5) {
+        console.log(`Reconnecting websocket (${this.connectionRetries + 1})`);
+        this.sessionStarted(this.charId);
+        this.set('connectionRetries', this.connectionRetries + 1);
+      }
     },
     
     sessionStarted(charId) {
@@ -84,11 +97,12 @@ export default Service.extend(AresConfig, {
         let socket = this.socket;
         this.set('charId', charId);
         
-        if (socket) {
+        if (this.isSocketReady()) {
+          console.log("Keeping socket.");
           this.handleConnect();
           return;
         }
-        
+                
         try
         {
             socket = new WebSocket(this.socketUrl());
@@ -101,10 +115,12 @@ export default Service.extend(AresConfig, {
                 self.handleMessage(self, evt);
             };
             socket.onclose = function() {
-              self.handleError(self, 'Websocket closed.');
+              console.log("Websocket closed.");
+              self.handleSocketClosed(self);
             };
-            socket.onError = function(evt) {
-              self.handleError(self, evt);
+            socket.onerror = function(evt) {
+              console.log(evt);
+              self.handleSocketClosed(self);
             };
             this.set('browserNotification', window.Notification || window.mozNotification || window.webkitNotification);
         
@@ -131,9 +147,14 @@ export default Service.extend(AresConfig, {
     },
     
     sendCharId() {
+      const auth = this.get('session.data.authenticated');
+      const id = auth['id'] ? this.charId : null;
+      
       let cmd = {
         'type': 'identify',
-        'data': { 'id': this.charId }
+        'data': { 'id': id },
+        'auth': auth,
+        'api_key': this.apiKey,
       };
       let json = JSON.stringify(cmd);
       try {
@@ -156,9 +177,8 @@ export default Service.extend(AresConfig, {
       this.callbacks[notification] = method;
     },
     
-    handleError(self, evt) {
+    handleSocketClosed(self) {
       let message = 'Your connection to the game has been lost!  You will no longer see updates.  Try reloading the page.  If the problem persists, the game may be down.';
-      console.error("Websocket closed: ", evt);
       self.notify(message, 10, 'error');
       self.set('connected', false);
       self.set('socket', null);
@@ -168,6 +188,7 @@ export default Service.extend(AresConfig, {
     handleConnect() {
       this.set('connected', true);
       this.set('lastActivity', new Date());
+      this.set('connectionRetries', 0);      
       this.sendCharId();
     },
     
@@ -197,13 +218,8 @@ export default Service.extend(AresConfig, {
         
         var recipient = data.args.character;
         var notification_type = data.args.notification_type;
-
         
-        if (notification_type == "ping") {
-          this.set('lastActivity', new Date());
-          console.log("PING " + new Date().toLocaleString());
-          return;
-        }
+        this.set('lastActivity', new Date());
         
         if (!recipient || recipient === self.get('charId')) {
             var notify = true;
